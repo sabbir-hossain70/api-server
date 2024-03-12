@@ -290,6 +290,55 @@ func AddAuthor(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(AuthorName + " was successfully added to the author list"))
 }
 
+func Similar(s1, s2 string) bool {
+	//fmt.Println(s1, s2)
+	b1 := []byte(s1)
+	b2 := []byte(s2)
+	n1 := len(b1)
+	n2 := len(b2)
+	for i := 0; i+n2-1 < n1; i++ {
+		f := true
+		for j := 0; j < n2; j++ {
+			if b1[i+j] != b2[j] {
+				//fmt.Println("i : ", i, " j ", j)
+				f = false
+			}
+		}
+		if f == true {
+			return true
+		}
+	}
+	return false
+}
+
+func SearchKey(w http.ResponseWriter, r *http.Request) {
+	keyword := chi.URLParam(r, "keyword")
+	Books := []Book{}
+	Authors := []Author{}
+	for x := range BookList {
+		if Similar(BookList[x].Title, keyword) {
+			Books = append(Books, BookList[x])
+		}
+	}
+	for x := range AuthorList {
+		if Similar(AuthorList[x].AuthorFirstName+AuthorList[x].AuthorLastName, keyword) {
+			Authors = append(Authors, AuthorList[x])
+		}
+	}
+	fmt.Println(Books)
+	fmt.Println(Authors)
+	AuthorsJson, err := json.Marshal(Authors)
+	if err != nil {
+		panic(err)
+	}
+	w.Write([]byte(AuthorsJson))
+	BooksJson, err := json.Marshal(Books)
+	if err != nil {
+		panic(err)
+	}
+	w.Write([]byte(BooksJson))
+}
+
 func main() {
 	Init()
 	r := chi.NewRouter()
@@ -309,6 +358,7 @@ func main() {
 		r.Delete("/author/{authorname}", DeleteAuthor)
 		r.Put("/author/{authorname}/{phone}", UpdateAuthorInfo)
 		r.Post("/author/{fn}/{ln}/{phone}", AddAuthor)
+		r.Get("/search/{keyword}", SearchKey)
 	})
 
 	//fmt.Println(BookList)
