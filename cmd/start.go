@@ -4,8 +4,10 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"github.com/sabbir-hossain70/api-server/apiHandler"
 	"github.com/spf13/cobra"
+	"strconv"
 )
 
 // startCmd represents the start command
@@ -18,13 +20,15 @@ var (
 		Long: `It starts the server on a given port number, 
 				Port number will be given in the cmd`,
 		Run: func(cmd *cobra.Command, args []string) {
-			apiHandler.RunServer(Port)
+			fmt.Println(args)
+			fmt.Println("Port: ", Port)
+			apiHandler.RunServer(strconv.Itoa(Port))
 		},
 	}
 )
 
 func init() {
-
-	startCmd.PersistentFlags().IntVarP(&Port, "port", "p", 8080, "Port number for starting server")
+	fmt.Println("Here")
+	startCmd.PersistentFlags().IntVarP(&Port, "port", "p", 8081, "Port number for starting server")
 	rootCmd.AddCommand(startCmd)
 }

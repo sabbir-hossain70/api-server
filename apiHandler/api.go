@@ -178,7 +178,7 @@ func SearchKey(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(BooksJson))
 }
 
-func RunServer(Port int) {
+func RunServer(Port string) {
 	dataHandler.Init()
 	authHandler.InitToken()
 	r := chi.NewRouter()
@@ -201,6 +201,6 @@ func RunServer(Port int) {
 		r.Get("/search/{keyword}", SearchKey)
 	})
 
-	//fmt.Println(BookList)
-	log.Fatal(http.ListenAndServe(":8080", r))
+	fmt.Println("Port :::: ", Port)
+	log.Fatal(http.ListenAndServe(":"+Port, r))
 }
