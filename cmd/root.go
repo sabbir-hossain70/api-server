@@ -12,7 +12,7 @@ import (
 
 // rootCmd represents the root command
 var rootCmd = &cobra.Command{
-	Use:   "api-books",
+	Use:   "api-server",
 	Short: "Api book server",
 	Long:  `This is a api bookserver`,
 	Run: func(cmd *cobra.Command, args []string) {

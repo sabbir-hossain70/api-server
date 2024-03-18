@@ -28,7 +28,7 @@ var (
 )
 
 func init() {
-	fmt.Println("Here")
-	startCmd.PersistentFlags().IntVarP(&Port, "port", "p", 8081, "Port number for starting server")
+	//fmt.Println("Here")
+	startCmd.PersistentFlags().IntVarP(&Port, "port", "p", 8080, "Port number for starting server")
 	rootCmd.AddCommand(startCmd)
 }
