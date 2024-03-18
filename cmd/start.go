@@ -21,7 +21,7 @@ var (
 				Port number will be given in the cmd`,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println(args)
-			fmt.Println("Port: ", Port)
+			fmt.Println("Port no: ", Port)
 			apiHandler.RunServer(strconv.Itoa(Port))
 		},
 	}
@@ -30,5 +30,7 @@ var (
 func init() {
 	//fmt.Println("Here")
 	startCmd.PersistentFlags().IntVarP(&Port, "port", "p", 8080, "Port number for starting server")
+	//api-server start -p 8083
 	rootCmd.AddCommand(startCmd)
+	// need to use [go install] first for every change
 }
